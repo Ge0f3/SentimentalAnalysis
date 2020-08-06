@@ -69,25 +69,26 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
     
     # TODO: Paste the train() method developed in the notebook here.
 
-    for epoch in range(1,epochs+1):
+    for epoch in range(1, epochs + 1):
         model.train()
-        total_loss = 0 
-
-        for batch in train_loader:
-            batch_x, batch_y = batch
-
-            batch_x = batch_x.to_device()
-            batch_y = batch_y.to_device()
-
+        total_loss = 0
+        for batch in train_loader:         
+            batch_X, batch_y = batch
+            
+            batch_X = batch_X.to(device)
+            batch_y = batch_y.to(device)
+            
+            # TODO: Complete this train method to train the model provided.
             optimizer.zero_grad()
-            res = model.forward(batch_x)
+            res = model.forward(batch_X)
             loss = loss_fn(res,batch_y)
             #Gradiant descent steps
             loss.backward()
             optimizer.step()
 
+            
             total_loss += loss.data.item()
-        print("Epoch -- {}, BCE Loss -- {}".format(epoch,total_loss/len(train_loader)))
+        print("Epoch: {}, BCELoss: {}".format(epoch, total_loss / len(train_loader)))
 
 
 
